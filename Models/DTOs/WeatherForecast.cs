@@ -1,4 +1,4 @@
-namespace dot_net_core_web_api.Models.DTOs;
+namespace dotnetcore_web_api.Models.DTOs;
 
 public class WeatherForecast
 {

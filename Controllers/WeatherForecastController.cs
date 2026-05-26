@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using dot_net_core_web_api.Models.DTOs;
+using dotnetcore_web_api.Models.DTOs;
 
-namespace dot_net_core_web_api.Controllers;
+namespace dotnetcore_web_api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
