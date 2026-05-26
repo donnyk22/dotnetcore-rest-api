@@ -55,3 +55,39 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# JetBrains Rider
+.idea/
+*.DotSettings.user
+
+# ASP.NET Core user secrets and local overrides
+secrets.json
+appsettings.*.local.json
+wwwroot/dist/
+
+# Publish output
+publish/
+PublishProfiles/
+*.pubxml.user
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
