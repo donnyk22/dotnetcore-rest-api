@@ -1,0 +1,8 @@
+Catatan implementasi yang perlu dilanjutkan saat DbContext dibuat (tidak bisa fully diwakili oleh attribute saja):
+
+Timestamp via lifecycle hook — @PrePersist/@PreUpdate saya ganti dengan property initializer. Kalau ingin perilaku persis seperti JPA (di-set saat persist, bukan saat instansiasi), override SaveChanges/SaveChangesAsync di DbContext untuk men-set CreatedAt/UpdatedAt berdasarkan EntityState.Added/Modified.
+Soft delete — saya tambah properti IsDeleted + kolom is_deleted. Tambahkan global query filter: modelBuilder.Entity<MstUsers>().HasQueryFilter(e => !e.IsDeleted); (dan begitu juga untuk Classes/Students/Teachers).
+Audit history (@Audited Envers) — tidak ada built-in EF Core. Pakai paket seperti Audit.NET.EntityFramework atau implementasi SaveChangesInterceptor sendiri.
+@OrderBy("id ASC") pada MstClasses.Students — terapkan saat query (.OrderBy(s => s.Id)) atau via fluent API.
+@NotFound(IGNORE) pada MstStudents.User — di EF Core, navigasi opsional dengan FK nullable sudah berperilaku setara (null bila tidak ditemukan saat join).
+Tipe kolom Char di SQL bervariasi per provider; untuk PostgreSQL pertimbangkan [Column(TypeName = "char(1)")] pada properti Gender.

@@ -1,0 +1,15 @@
+Beberapa hal yang perlu diingat:
+
+Konflik nama Action — System.Action adalah delegate built-in dan implicit-using di project ini. Saat memakai Models.Enums.Action, pakai alias supaya tidak ambigu:
+
+
+using ActionEnum = dotnetcore_web_api.Models.Enums.Action;
+Kalau nantinya jadi sumber friksi, pertimbangkan rename ke ApiAction / AuditAction.
+
+Action.PUT & Action.PATCH punya value sama ("change") — di Java itu legal karena member enum yang berbeda. Pola switch di C# saya jaga tetap distinct member tapi return string yang sama, identik secara fungsional.
+
+Penamaan Java tidak konsisten (getValue di Action vs getVal di TimeFormat/UserGender) — saya pertahankan persis: Action.GetValue() vs TimeFormat.GetVal() / UserGender.GetVal().
+
+TimeFormat pattern — kebetulan token-token di pattern Java (dd, MM, yyyy, HH, mm, ss, MMMM, d) memiliki arti yang sama di .NET custom date format, jadi dapat langsung dipakai dengan DateTime.ToString("dd-MM-yyyy").
+
+Reflection alternatif — kalau nanti kamu tambah banyak enum dengan associated value, pertimbangkan attribute [Description] + satu helper generik agar tidak perlu extension class per enum. Untuk skala saat ini, switch lebih cepat & type-safe.

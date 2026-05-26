@@ -1,0 +1,13 @@
+Beberapa keputusan terjemahan yang patut digarisbawahi:
+
+List<@Email String> (element-level) — DataAnnotations tidak punya cara declarative untuk validasi tiap elemen. Saya pakai IValidatableObject.Validate(...) di EmailForm yang melakukan loop manual via EmailAddressAttribute. Alternatif yang lebih reusable: bikin custom [ItemsEmail] ValidationAttribute, atau pindah ke FluentValidation (RuleForEach(x => x.Recipients).EmailAddress()).
+
+OffsetDateTime + @JsonFormat(yyyy-MM-dd'T'HH:mm:ssXXX) → DateTimeOffset?. ASP.NET Core dengan System.Text.Json otomatis parse ISO-8601 dengan offset (2026-03-08T09:00:00+07:00). Tidak butuh [JsonConverter] tambahan.
+
+@EqualsAndHashCode(callSuper = true) pada WebSocketUsersForm — saya implement Equals/GetHashCode yang menyertakan field parent (Subject, Content) plus UserIds dengan SequenceEqual. Pakai HashCode struct dengan iterasi elemen list. Catatan: di Java kode aslinya callSuper=true tapi parent (WebSocketForm) tidak override equals, jadi efektif yang dibandingkan hanya identitas reference. Versi C# saya lebih "benar" — value equality lengkap. Kalau kamu mau persis broken-behavior Java-nya, ganti badan Equals menjadi ReferenceEquals(this, obj).
+
+@AllArgsConstructor + @NoArgsConstructor — saya tambahkan dua constructor eksplisit di WebSocketForm dan WebSocketUsersForm. Object initializer C# tetap bisa dipakai sebagai pengganti idiomatic.
+
+@Schema(allowableValues = {...}) pada Method/Table — ini cuma metadata OpenAPI (tidak validasi di Java runtime). Saya gabungkan ke [Description]. Kalau kamu mau enforce di server-side, tambahkan [RegularExpression("^(POST|PUT|PATCH|DELETE)$")] atau ganti tipe ke enum.
+
+@DefaultValue + @Description di ApplicationLetterForm — [DefaultValue] dibaca oleh Microsoft.AspNetCore.OpenApi untuk skema OpenAPI default, dan [Description] untuk teks deskripsi. Example value tidak ada attribute langsung, jadi saya gabungkan ke description.

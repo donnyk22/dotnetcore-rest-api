@@ -1,0 +1,8 @@
+ApiResponse.cs tidak saya ubah karena versi yang sudah ada (primary-constructor + DateTimeOffset.UtcNow default) sudah setara fungsional dengan versi Java.
+
+Beberapa catatan terjemahan yang patut diperhatikan:
+
+Instant vs OffsetDateTime — saya samakan keduanya jadi DateTimeOffset? agar konsisten. Kalau kamu perlu Instant murni (UTC tanpa offset), gunakan DateTime dengan Kind=Utc. Saat serialisasi JSON keduanya akan ke ISO-8601 string.
+Set<String> → HashSet<string>? — preserve semantik "unique unordered". Kalau lebih suka kontrak interface, ganti ke ISet<string>?.
+@Accessors(chain = true) — Lombok versi set...() fluent. C# tidak butuh padanan karena object initializer (new MstUsersDto { Id = 1, Username = "x" }) sudah idiomatic.
+@AllArgsConstructor+@NoArgsConstructor — hanya saya tambahkan eksplisit di WebSocketUserSessionDetailDto.cs karena class lain di Java cuma pakai @Setter/@Getter (default no-arg). Object initializer C# tetap berfungsi setara.
